@@ -1,6 +1,10 @@
-import { PagePartnersType } from "@/actions";
+import { PagePartnersType, SetNearlyPartnersType } from "@/actions";
 import { PageData } from "@/constants/common";
-import { Partner, PAGE_PARTNERS } from "@/constants/partner";
+import {
+  Partner,
+  PAGE_PARTNERS,
+  SET_NEARLY_PARTNERS,
+} from "@/constants/partner";
 
 const Partners = (
   partners: PageData<Partner> = {
@@ -19,4 +23,16 @@ const Partners = (
   return partners;
 };
 
+const NearlyPartners = (
+  partners: Partner[] = [],
+  action: SetNearlyPartnersType,
+) => {
+  if (action.type === SET_NEARLY_PARTNERS) {
+    return action.partners;
+  }
+
+  return partners;
+};
+
 export default Partners;
+export { NearlyPartners };

@@ -10,7 +10,7 @@ export default defineAppConfig({
   subPackages: [
     {
       root: "packages/partner",
-      pages: ["list/index"],
+      pages: ["list/index", "create/index"],
     },
   ],
   window: {
@@ -24,5 +24,5 @@ export default defineAppConfig({
       desc: "你的位置信息将用于小程序位置接口的效果展示",
     },
   },
-  requiredPrivateInfos: ["getLocation"],
+  requiredPrivateInfos: ["getLocation", "chooseLocation"],
 });

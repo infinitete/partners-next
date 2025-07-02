@@ -58,6 +58,26 @@
     flex: 1;
     margin-left: 36px;
     color: #1A1C24;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    picker {
+      flex: 1;
+    }
+
+    input {
+      flex: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .caret {
+      margin-left: 16px;
+      width: 32px;
+      height: 32px;
+    }
   }
 
   .input-placeholder {

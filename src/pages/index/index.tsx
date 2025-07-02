@@ -1,20 +1,20 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import { View, Map, Image } from "@tarojs/components";
-import Button from "@/comps/button";
 import AmIcon from "@/assets/icons/aiming.svg";
+import Button from "@/comps/button";
+import { Image, Map, View } from "@tarojs/components";
+import { FC, useCallback, useState } from "react";
 
-import "./index.scss";
-import Taro from "@tarojs/taro";
-import { useDispatch, useSelector } from "react-redux";
-import { ReducersType } from "@/reducers";
-import { setUser } from "@/actions";
+import { setNearlyPartners } from "@/actions";
 import { Partner } from "@/constants/partner";
+import { ReducersType } from "@/reducers";
 import R from "@/requestor";
+import Taro, { useDidShow } from "@tarojs/taro";
+import { useDispatch, useSelector } from "react-redux";
+import "./index.scss";
 
 const Index: FC = () => {
   const dispatch = useDispatch();
   const appletUser = useSelector((r: ReducersType) => r.AppletUser);
-  const [nearlyPartners, setNearlyPartners] = useState<Partner[]>([]);
+  const nearlyPartners = useSelector((r: ReducersType) => r.NearlyPartners);
 
   const mapCtx = Taro.createMapContext("map");
   const [pos, setPos] = useState<{ lng: number; lat: number }>({
@@ -31,7 +31,7 @@ const Index: FC = () => {
           mapCtx.removeMarkers({
             markerIds: nearlyPartners.map((x) => `${x.id}`),
           });
-          setNearlyPartners(res.data);
+          dispatch(setNearlyPartners(res.data));
           const markers = res.data.map((p) => ({
             id: p.id,
             longitude: parseFloat(p.longitude),
@@ -79,7 +79,11 @@ const Index: FC = () => {
           }
         },
       });
+
+      return;
     }
+
+    Taro.navigateTo({ url: "/packages/partner/create/index" });
   }, [appletUser]);
 
   const onListBtnClick = useCallback(() => {
@@ -103,18 +107,13 @@ const Index: FC = () => {
     Taro.navigateTo({ url: "/packages/partner/list/index" });
   }, [appletUser]);
 
-  useEffect(() => {
-    getCurrentLocation().then();
-  }, []);
-
-  const onDbClick = useCallback(() => {
-    dispatch(setUser(null));
-    console.log("remove user");
-    Taro.showToast({ title: "退出了", icon: "none" });
-  }, []);
+  useDidShow(() => {
+    Taro.navigateTo({ url: "/packages/partner/create/index" });
+    /* getCurrentLocation().then(); */
+  });
 
   return (
-    <View className="page" onLongPress={onDbClick}>
+    <View className="page">
       <View className="map-wrapper">
         <Map
           id="map"

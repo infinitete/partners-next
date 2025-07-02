@@ -14,4 +14,17 @@ export interface Partner {
   updatedAt: number;
 }
 
+export type AppLocation = {
+  id: number;
+  latitude: number;
+  longitude: number;
+  province: string;
+  city: string;
+  district: string;
+  districtCode: string;
+  address: string;
+};
+
+export const PARTNER_TYPES = ["拖车侠", "保险公司", "拖车公司", "维修公司"];
 export const PAGE_PARTNERS = "PAGE_PARTNERS";
+export const SET_NEARLY_PARTNERS = "SET_NEARLY_PARTNERS";

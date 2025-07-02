@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
 import AppletUser from "./user";
-import Partners from "./partner";
+import Partners, { NearlyPartners } from "./partner";
 
 const reducers = combineReducers({
   AppletUser,
   Partners,
+  NearlyPartners,
 });
 
 export default reducers;
