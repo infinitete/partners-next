@@ -1,3 +1,13 @@
+.page {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F5F7FA;
+}
+
 .app-btn {
   height: 96px;
   line-height: 96px;
@@ -71,4 +81,51 @@
     font-weight: bold;
     font-size: 48px;
   }
+}
+
+.app-partner {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 36px;
+  box-sizing: border-box;
+  border: 2px solid rgba(1, 145, 255, 0);
+  transition-duration: 0.25s;
+
+  .main {
+    display: flex;
+    justify-content: center;
+
+    .icon {
+      width: 48px;
+      height: 48px;
+
+      image {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    .name {
+      flex: 1;
+      margin-left: 16px;
+      color: #1A1C24;
+      font-weight: bold;
+      font-size: 32px;
+      overflow-x: hidden;
+      word-wrap: break-word;
+    }
+  }
+
+  .address {
+    margin-top: 28px;
+    font-size: 28px;
+    color: #6D7278;
+  }
+}
+
+.app-partner:hover {
+  box-sizing: border-box;
+  border: 2px solid rgba(1, 145, 255, 1);
+  transition-duration: 0.25s;
+  box-shadow: 0px 8px 8px 0px rgba(1, 145, 255, 0.2);
 }

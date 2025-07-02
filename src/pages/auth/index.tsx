@@ -32,7 +32,7 @@ const Index: FC = () => {
   );
 
   return (
-    <View className="container">
+    <View className="page">
       <View className="main">
         <View className="head">
           <View className="image-wrapper">

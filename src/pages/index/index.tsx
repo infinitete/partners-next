@@ -5,10 +5,12 @@ import AmIcon from "@/assets/icons/aiming.svg";
 
 import "./index.scss";
 import Taro from "@tarojs/taro";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReducersType } from "@/reducers";
+import { setUser } from "@/actions";
 
 const Index: FC = () => {
+  const dispatch = useDispatch();
   const appletUser = useSelector((r: ReducersType) => r.AppletUser);
 
   const mapCtx = Taro.createMapContext("map");
@@ -28,6 +30,7 @@ const Index: FC = () => {
   const onCreateBtnClick = useCallback(() => {
     if (appletUser == null) {
       Taro.navigateTo({ url: "/pages/login/index" });
+      return;
     }
 
     if (!appletUser?.auth) {
@@ -46,6 +49,7 @@ const Index: FC = () => {
   const onListBtnClick = useCallback(() => {
     if (appletUser == null) {
       Taro.navigateTo({ url: "/pages/login/index" });
+      return;
     }
 
     if (!appletUser?.auth) {
@@ -59,14 +63,21 @@ const Index: FC = () => {
         },
       });
     }
+
+    Taro.navigateTo({ url: "/packages/partner/list/index" });
   }, [appletUser]);
 
   useEffect(() => {
     getCurrentLocation().then();
   }, []);
 
+  const onDbClick = useCallback(() => {
+    dispatch(setUser(null));
+    console.log("remove user");
+  }, []);
+
   return (
-    <View className="container">
+    <View className="page" onLongPress={onDbClick}>
       <View className="map-wrapper">
         <Map
           id="map"
@@ -86,12 +97,12 @@ const Index: FC = () => {
 
         <View className="actions">
           <View className="action-item">
-            <Button rev onClick={onCreateBtnClick}>
+            <Button rev onClick={onListBtnClick}>
               采集记录
             </Button>
           </View>
           <View className="action-item">
-            <Button onClick={onListBtnClick}>我要采集</Button>
+            <Button onClick={onCreateBtnClick}>我要采集</Button>
           </View>
         </View>
       </View>

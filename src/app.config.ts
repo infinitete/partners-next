@@ -1,11 +1,17 @@
 export default defineAppConfig({
   pages: [
-    "pages/auth/index",
-    "pages/auth/code",
     "pages/index/index",
     "pages/login/index",
+    "pages/auth/index",
+    "pages/auth/code",
     "pages/agreement/user/index",
     "pages/agreement/yinsi/index",
+  ],
+  subPackages: [
+    {
+      root: "packages/partner",
+      pages: ["list/index"],
+    },
   ],
   window: {
     backgroundTextStyle: "light",

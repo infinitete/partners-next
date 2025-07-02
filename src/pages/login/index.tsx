@@ -8,7 +8,8 @@ import Taro from "@tarojs/taro";
 import { useDispatch, useSelector } from "react-redux";
 import { ReducersType } from "@/reducers";
 import R from "@/requestor";
-import { Code2SessionResult, SET_USER } from "@/constants/user";
+import { Code2SessionResult } from "@/constants/user";
+import { setUser } from "@/actions";
 
 const Index: FC = () => {
   const [agree, setAgree] = useState(false);
@@ -37,7 +38,7 @@ const Index: FC = () => {
         key: "token",
         data: { token: res.data.token, expire: now + 7 * 3600 * 24 },
       });
-      dispatch({ type: SET_USER, user: res.data.user });
+      dispatch(setUser(res.data.user ?? null));
       Taro.hideLoading();
     } catch (e) {
       Taro.hideLoading();

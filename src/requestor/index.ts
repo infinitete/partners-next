@@ -28,7 +28,7 @@ interface Method {
 }
 
 export namespace Requestor {
-  export const SERVER = "http://127.0.0.1:8000"; // 符杰
+  export const SERVER = "http://192.168.2.8:8000";
 
   export const OSS_SERVER = "https://oss.trailerman.cn";
   export const ALI_OSS = "https://tcx.oss-cn-chengdu.aliyuncs.com";
@@ -265,6 +265,18 @@ export namespace Requestor {
         `${this.server}/v2/applet/auth`,
         POST,
         JSON.stringify({ name, code }),
+      );
+    }
+
+    // 分页获取已采集合作伙伴
+    async pagePartner<T>(
+      page: number,
+      size: number,
+      query: string,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partners/page?page=${page}&size=${size}&query=${query}`,
+        GET,
       );
     }
   }
