@@ -279,6 +279,18 @@ export namespace Requestor {
         GET,
       );
     }
+
+    // 分页获取已采集合作伙伴
+    async getNearlyPartners<T>(
+      lng: number,
+      lat: number,
+      count: number,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partners/near?lng=${lng}&lat=${lat}&count=${count}`,
+        GET,
+      );
+    }
   }
 }
 

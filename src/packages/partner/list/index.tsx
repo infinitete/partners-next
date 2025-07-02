@@ -48,7 +48,7 @@ const Index: FC = () => {
   }, []);
 
   return (
-    <View className="page" style={{ height: "100vh", overflow: "hidden" }}>
+    <View className="page" style={{ height: "100vh" }}>
       <View className="search-wrapper">
         <View className="input">
           <Input placeholder="搜索" />
@@ -69,7 +69,6 @@ const Index: FC = () => {
           }
         }}
         className="list-wrapper"
-        style={{ height: "calc(100vh - 100px)" }}
       >
         {partners.payload.map((p) => (
           <View className="item" key={p.id}>

@@ -45,6 +45,7 @@
 .list-wrapper {
   margin: 36px;
   width: calc(100vw - 72px);
+  height: calc(100vh - 4*36px - 64px);
   flex: 1;
 
   .item {
