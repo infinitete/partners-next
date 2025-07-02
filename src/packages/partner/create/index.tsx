@@ -3,6 +3,7 @@ import { FC, useCallback, useState } from "react";
 import Input from "@/comps/input";
 import Picker from "@/comps/picker";
 import Mapper from "@/comps/mapper";
+import Imager from "@/comps/imager";
 import Taro, { useDidShow } from "@tarojs/taro";
 
 import "./index.scss";
@@ -69,7 +70,11 @@ const Index: FC = () => {
             onSuccess={console.log}
           />
         </View>
-        <View className="images"></View>
+        <View className="images">
+          <View className="item">
+            <Imager title="门头照" count={1} />
+          </View>
+        </View>
       </View>
       <View className="btn-wrapper">
         <Button>提交</Button>

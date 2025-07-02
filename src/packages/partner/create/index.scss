@@ -24,6 +24,13 @@
 
 }
 
+.images {
+  // todo margin
+  margin: 36px 0;
+  width: calc(100vw - 72px);
+  padding: 0 36px;
+}
+
 .btn-wrapper {
   width: calc(100vw - 72px);
   margin-bottom: 64px;

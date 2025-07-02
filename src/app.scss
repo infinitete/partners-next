@@ -149,3 +149,44 @@
   transition-duration: 0.25s;
   box-shadow: 0px 8px 8px 0px rgba(1, 145, 255, 0.2);
 }
+
+.app-imager {
+  .title {
+    color: #1A1C24;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  .items {
+    display: flex;
+    flex-flow: row wrap;
+
+    .item {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      margin: 8px;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      border: 2px solid rgba(26, 28, 24, 0.2);
+      transition-duration: 0.25s;
+      border-radius: 8px;
+
+      .add-icon {
+        width: 48px;
+        height: 48px;
+
+        image {
+          width: 48px;
+          height: 48px;
+        }
+      }
+    }
+
+    .item:hover{
+      border: 2px solid rgba(1, 145, 255, 1);
+      transition-duration: 0.25s;
+    }
+  }
+}
