@@ -71,7 +71,6 @@ const Index: FC = () => {
     });
 
     setPos({ lng: res.longitude, lat: res.latitude });
-    mapCtx.moveToLocation({ latitude: res.latitude, longitude: res.longitude });
     if (appletUser?.auth) {
       getNearlyPartners(res.longitude, res.latitude, 20);
     }
