@@ -1,6 +1,12 @@
+::-webkit-scrollbar {
+  display:none;
+  width:0;
+  height:0;
+  color:transparent;
+}
+
 .partner-wrapper {
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 
@@ -19,5 +25,53 @@
     background-color: #fff;
     padding: 36px;
     border-radius: 8px;
+  }
+
+  .employee-wrapper {
+    background-color: #fff;
+    margin: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 36px;
+    border-radius: 8px;
+    border: 2px solid rgba(1, 145, 255, 0);
+    transition-duration: 0.25s;
+
+    .title {
+      width: 200px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .value {
+      flex: 1;
+      font-size: 32px;
+      text-align: right;
+    }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      .caret {
+        margin-left: 16px;
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  .employee-wrapper:hover {
+    border: 2px solid rgba(1, 145, 255, 1);
+    transition-duration: 0.25s;
+  }
+
+  .actions {
+    width: 100%;
+    margin-bottom: 64px;
+
+    .action-item {
+      padding: 0 36px;
+      margin-top: 36px;
+    }
   }
 }

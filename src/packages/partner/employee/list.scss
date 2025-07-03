@@ -1,0 +1,22 @@
+.empty {
+  flex: 1;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+}
+
+
+.items {
+  flex: 1;
+  width: calc(100% - 72px);
+  padding: 36px;
+
+  .item {
+    margin: 8px 0;
+  }
+}
+
+.button-wrapper {
+  margin: 36px;
+  width: calc(100vw - 72px);
+}

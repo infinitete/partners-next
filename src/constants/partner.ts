@@ -28,7 +28,7 @@ export type AppLocation = {
 export interface Employee {
   id: number;
   name: string;
-  photo: string;
+  phone: string;
   position: string;
   createdAt: number;
   updatedAt: number;

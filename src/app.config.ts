@@ -10,7 +10,13 @@ export default defineAppConfig({
   subPackages: [
     {
       root: "packages/partner",
-      pages: ["list/index", "create/index", "success/index", "details/index"],
+      pages: [
+        "list/index",
+        "create/index",
+        "success/index",
+        "details/index",
+        "employee/list",
+      ],
     },
   ],
   window: {

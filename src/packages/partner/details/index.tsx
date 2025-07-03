@@ -1,7 +1,7 @@
 import PartnerComp from "@/comps/partner";
 import { ExtraData, Partner } from "@/constants/partner";
 import R from "@/requestor";
-import { Map, View } from "@tarojs/components";
+import { Map, Image, View, Text } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
 import { FC, useCallback, useEffect, useState } from "react";
 import Desciption from "@/comps/description";
@@ -9,6 +9,8 @@ import "./index.scss";
 import dayjs from "dayjs";
 import Imager from "@/comps/imager";
 import { getFileByOID } from "@/utils/oss";
+import Button from "@/comps/button";
+import CaretRightIcon from "@/assets/icons/caret-right.svg";
 
 interface Props {
   partner: Partner;
@@ -17,6 +19,13 @@ interface Props {
 
 const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
   useEffect(() => {}, []);
+
+  const onEmployeeWrapperClick = useCallback(() => {
+    Taro.setStorageSync(`employees-${partner.id}`, extraData.employees);
+    Taro.navigateTo({
+      url: `/packages/partner/employee/list?partner=${partner.id}`,
+    });
+  }, []);
 
   return (
     <View className="partner-wrapper">
@@ -97,6 +106,28 @@ const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
           />
         </View>
         <View className="flex-1">&nbsp;</View>
+      </View>
+
+      <View
+        className="employee-wrapper flex-1"
+        onClick={onEmployeeWrapperClick}
+      >
+        <View className="title">
+          <Text>联系人</Text>
+        </View>
+        <View className="value">
+          <Text>{extraData.employees.length}人</Text>
+        </View>
+
+        <View className="icon">
+          <Image className="caret" src={CaretRightIcon} />
+        </View>
+      </View>
+
+      <View className="actions">
+        <View className="action-item">
+          <Button>修改</Button>
+        </View>
       </View>
     </View>
   );
