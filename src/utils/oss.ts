@@ -30,7 +30,7 @@ export type OSSFormParam = {
 const ak_url = "https://oss.trailerman.cn/api/v1/sts/ak";
 const os_url = "https://oss.trailerman.cn/api/v1/file/save";
 const file_url = (oid: string) =>
-  `http://oss.trailerman.cn/api/v1/file/oid/${oid}`;
+  `https://oss.trailerman.cn/api/v1/file/oid/${oid}`;
 const key = "438zaYRJTbQ";
 const sec = "brj6mf9peycyy";
 

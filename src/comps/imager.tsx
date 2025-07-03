@@ -7,16 +7,20 @@ import Taro from "@tarojs/taro";
 export interface ImagerProps {
   title: string;
   count: number;
+  read?: boolean;
+  items?: string[];
   onChange: (paths: string[]) => void;
 }
 
 interface IterProps {
+  read?: boolean;
+  url: string;
   onSuccess: (path: string) => void;
   onError?: () => void;
 }
 
-const Item: FC<IterProps> = ({ onSuccess, onError }) => {
-  const [path, setPath] = useState("");
+const Item: FC<IterProps> = ({ onSuccess, onError, read, url }) => {
+  const [path, setPath] = useState(read ? url : "");
 
   const onImageClick = useCallback(async () => {
     if (path == "") {
@@ -42,7 +46,7 @@ const Item: FC<IterProps> = ({ onSuccess, onError }) => {
       <View
         className="add-icon"
         onClick={onImageClick}
-        style={{ display: path == "" ? "flex" : "none" }}
+        style={{ display: !read && path == "" ? "flex" : "none" }}
       >
         <Image src={AddIcon} />
       </View>
@@ -52,7 +56,7 @@ const Item: FC<IterProps> = ({ onSuccess, onError }) => {
         style={{ display: path == "" ? "none" : "block" }}
       >
         <Image src={path} />
-        <View className="clear">
+        <View className="clear" style={{ display: read ? "none" : "block" }}>
           <Image
             src={ClearIcon}
             onClick={(e) => {
@@ -67,9 +71,20 @@ const Item: FC<IterProps> = ({ onSuccess, onError }) => {
   );
 };
 
-const Imager: FC<ImagerProps> = ({ title, count, onChange }) => {
+const Imager: FC<ImagerProps> = ({ title, count, onChange, read, items }) => {
   const q = new Array(count).fill(0);
   const [paths, setPaths] = useState<string[]>([]);
+
+  const getItem = useCallback(
+    (idx: number) => {
+      if (items == undefined || idx > items.length - 1) {
+        return "";
+      }
+
+      return items[idx];
+    },
+    [items],
+  );
 
   const onItemsChange = useCallback(
     (idx: number, path: string) => {
@@ -90,6 +105,8 @@ const Imager: FC<ImagerProps> = ({ title, count, onChange }) => {
         {q.map((_, idx) => (
           <Item
             key={idx}
+            read={read}
+            url={getItem(idx)}
             onSuccess={(path: string) => onItemsChange(idx, path)}
           />
         ))}

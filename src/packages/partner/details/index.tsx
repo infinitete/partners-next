@@ -3,10 +3,12 @@ import { ExtraData, Partner } from "@/constants/partner";
 import R from "@/requestor";
 import { Map, View } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import Desciption from "@/comps/description";
 import "./index.scss";
 import dayjs from "dayjs";
+import Imager from "@/comps/imager";
+import { getFileByOID } from "@/utils/oss";
 
 interface Props {
   partner: Partner;
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
+  useEffect(() => {}, []);
+
   return (
     <View className="partner-wrapper">
       <Map
@@ -72,6 +76,27 @@ const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
             },
           ]}
         />
+      </View>
+      <View className="images">
+        <View className="item">
+          <Imager
+            title="门头照"
+            onChange={console.log}
+            count={1}
+            read
+            items={[getFileByOID(partner.doorPhoto)]}
+          />
+        </View>
+        <View className="item" style={{ marginLeft: "8px" }}>
+          <Imager
+            title="远景照"
+            onChange={console.log}
+            count={1}
+            read
+            items={[getFileByOID(partner.panoramaPhoto)]}
+          />
+        </View>
+        <View className="flex-1">&nbsp;</View>
       </View>
     </View>
   );
