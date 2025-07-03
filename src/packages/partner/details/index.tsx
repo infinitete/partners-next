@@ -123,7 +123,7 @@ const Index: FC = () => {
         setPartner(res.data);
       } catch (e) {
         Taro.hideLoading();
-        Taro.showToast({ title: "获取数据失败" });
+        Taro.showToast({ title: "获取数据失败", icon: "none" });
         const t = setTimeout(() => {
           clearTimeout(t);
           Taro.navigateBack({});
