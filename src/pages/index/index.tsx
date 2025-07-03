@@ -53,9 +53,23 @@ const Index: FC = () => {
   );
 
   const getCurrentLocation = useCallback(async () => {
+    try {
+      await Taro.authorize({ scope: "scope.userLocation" });
+    } catch (e) {
+      Taro.showModal({
+        title: "定位失败",
+        content: "请打开定位权限",
+        success: (s) => {
+          if (s.confirm) {
+            Taro.openSetting({});
+          }
+        },
+      });
+    }
     const res = await Taro.getLocation({
       type: "gcj02",
     });
+
     setPos({ lng: res.longitude, lat: res.latitude });
     mapCtx.moveToLocation({ latitude: res.latitude, longitude: res.longitude });
     if (appletUser?.auth) {
@@ -121,12 +135,15 @@ const Index: FC = () => {
           className="map"
           latitude={pos.lat}
           longitude={pos.lng}
+          includePoints={nearlyPartners.map((p) => ({
+            latitude: parseFloat(p.latitude),
+            longitude: parseFloat(p.longitude),
+          }))}
           showCompass
           showLocation
           showScale
           enableTraffic
           enableZoom
-          enableScroll={false}
         />
         <View className="icon" onClick={() => getCurrentLocation()}>
           <Image className="icon" src={AmIcon} />
