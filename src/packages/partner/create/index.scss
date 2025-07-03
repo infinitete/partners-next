@@ -25,13 +25,22 @@
 }
 
 .images {
-  // todo margin
   margin: 36px 0;
   width: calc(100vw - 72px);
   padding: 0 36px;
+  display: flex;
 }
 
 .btn-wrapper {
   width: calc(100vw - 72px);
   margin-bottom: 64px;
+}
+
+
+#canvas {
+  z-index: -999;
+  position: fixed;
+  left: -9999px;
+  top:-9999px;
+  letter-spacing: 12px;
 }

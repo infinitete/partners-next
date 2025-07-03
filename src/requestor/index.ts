@@ -291,6 +291,33 @@ export namespace Requestor {
         GET,
       );
     }
+
+    // 提交采集信息
+    async createPartner<T>(data: T): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/create`,
+        POST,
+        JSON.stringify(data),
+      );
+    }
+
+    // 获取合作伙伴基本信息
+    async getPartner<T>(id: number): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/${id}`,
+        GET,
+      );
+    }
+
+    // 获取合作伙伴额外信息
+    async getPartnerExtraData<T>(
+      id: number,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/extra/${id}`,
+        GET,
+      );
+    }
   }
 }
 

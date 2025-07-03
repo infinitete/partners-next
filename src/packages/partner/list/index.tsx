@@ -29,7 +29,9 @@ const Index: FC = () => {
           throw res.msg;
         }
         const nextData = { ...res.data };
-        nextData.payload = partners.payload.concat(res.data.payload);
+        if (page > 1) {
+          nextData.payload = partners.payload.concat(res.data.payload);
+        }
         dispatch(pagePartners(nextData));
         setReq(false);
       } catch (e) {
@@ -40,6 +42,10 @@ const Index: FC = () => {
     },
     [setReq, partners],
   );
+
+  const onItemClick = useCallback((item: Partner) => {
+    Taro.navigateTo({ url: `/packages/partner/details/index?id=${item.id}` });
+  }, []);
 
   useEffect(() => {
     if (partners.page == 0) {
@@ -72,7 +78,7 @@ const Index: FC = () => {
       >
         {partners.payload.map((p) => (
           <View className="item" key={p.id}>
-            <PartnerComp partner={p} />
+            <PartnerComp partner={p} onClick={() => onItemClick(p)} hover />
           </View>
         ))}
       </ScrollView>

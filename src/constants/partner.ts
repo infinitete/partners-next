@@ -6,8 +6,8 @@ export interface Partner {
   latitude: string;
   longitude: string;
   recorder: string;
-  distrctName: string;
-  distrctCode: string;
+  districtName: string;
+  districtCode: string;
   doorPhoto: string;
   panoramaPhoto: string;
   createdAt: number;
@@ -24,6 +24,21 @@ export type AppLocation = {
   districtCode: string;
   address: string;
 };
+
+export interface Employee {
+  id: number;
+  name: string;
+  photo: string;
+  position: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface ExtraData {
+  recorderName: string;
+  recoderOpenid: string;
+  employees: Employee[];
+}
 
 export const PARTNER_TYPES = ["拖车侠", "保险公司", "拖车公司", "维修公司"];
 export const PAGE_PARTNERS = "PAGE_PARTNERS";

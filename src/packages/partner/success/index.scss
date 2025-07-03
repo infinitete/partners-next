@@ -1,0 +1,38 @@
+.icon-wrapper {
+  margin-top: 168px;
+
+  image {
+    width: 256px;
+    height: 256px;
+    margin: auto;
+  }
+}
+
+.link {
+  color: #0fb3ff;
+}
+
+.main-text {
+  margin-top: 36px;
+  font-size: 48px;
+  font-weight: bold;
+  color: #1A1C24;
+}
+
+.sub-text {
+  font-size: 32px;
+  color: #6D7278;
+}
+
+.buttons {
+  width: calc(100vw - 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 64px;
+
+
+  .item {
+    margin-top: 36px;
+  }
+}

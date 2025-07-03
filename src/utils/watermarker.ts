@@ -38,7 +38,7 @@ type ResizeImageResult = {
   errMsg: string;
 };
 
-const Sleep = (time: number) => {
+export const Sleep = (time: number) => {
   return new Promise((r) => {
     setTimeout(r, time);
   });

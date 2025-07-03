@@ -5,13 +5,14 @@ import StoreIcon from "@/assets/icons/store.svg";
 
 export interface PartnerProps {
   onClick?: (p: T) => void;
+  hover?: boolean;
   partner: T;
 }
 
-const Partner: React.FC<PartnerProps> = ({ onClick, partner }) => {
+const Partner: React.FC<PartnerProps> = ({ onClick, partner, hover }) => {
   return (
     <View
-      className="app-partner"
+      className={`app-partner ${hover ? "app-partner-hover" : ""}`}
       onClick={() => (onClick ? onClick(partner) : "")}
     >
       <View className="main">

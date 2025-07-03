@@ -23,14 +23,14 @@ const Input: FC<Props> = (props: Props) => {
       Taro.showLoading({ title: "正在解析地址" });
       try {
         const res = await LngLatToAddress(lng, lat);
-
+        const { province, city, district } = res.address_component;
         const location: AppLocation = {
           id: Math.ceil(new Date().getTime() / 1000),
           latitude: lat,
           longitude: lng,
           province: res.address_component.province,
           city: res.address_component.city,
-          district: res.address_component.district,
+          district: `${province}/${city}/${district}`,
           districtCode: res.ad_info.adcode,
           address: address,
         };
