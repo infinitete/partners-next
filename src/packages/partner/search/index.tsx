@@ -8,14 +8,18 @@ import R from "@/requestor";
 import "./index.scss";
 import { PageData } from "@/constants/common";
 import { Partner } from "@/constants/partner";
+import Taro from "@tarojs/taro";
+import { useDispatch } from "react-redux";
+import { pagePartners } from "@/actions";
 
 const Index: FC = () => {
   const [regions, setRegions] = useState<string[]>([]);
   const [name, setName] = useState("");
-  const onRegionSelected = useCallback((region: string[], code: string[]) => {
-    console.log("region", region, code, "code");
+  const onRegionSelected = useCallback((regions: string[], _: string[]) => {
     setRegions(regions);
   }, []);
+
+  const dispatch = useDispatch();
 
   const queryPartners = useCallback(async () => {
     let query = Array<string>();
@@ -32,8 +36,22 @@ const Index: FC = () => {
       q = encodeURIComponent(query.join(" AND "));
     }
 
-    const res = await R.pagePartner<PageData<Partner>>(1, 10, q);
-    console.log(res);
+    try {
+      Taro.showLoading({ title: "正在搜索" });
+      const res = await R.pagePartner<PageData<Partner>>(1, 10, q);
+      Taro.hideLoading();
+      if (res.code != 0) {
+        throw res.msg;
+      }
+      if (res.data.total == 0) {
+        Taro.showToast({ title: "没有数据", icon: "none" });
+        return;
+      }
+      dispatch(pagePartners(res.data));
+      Taro.navigateBack({});
+    } catch (e) {
+      Taro.showToast({ title: "搜索失败", icon: "error" });
+    }
   }, [name, regions]);
 
   return (
