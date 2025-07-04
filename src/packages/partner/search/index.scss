@@ -1,0 +1,20 @@
+.form-wrapper {
+  width: 100%;
+
+  .mention {
+    padding: 36px;
+    font-size: 32px;
+    color: #6D7278;
+  }
+
+}
+
+.history-wrapper {
+  flex: 1;
+  width: calc(100vw - 72px);
+}
+
+.btn-wrapper {
+  width: calc(100vw - 72px);
+  margin-bottom: 32px;
+}

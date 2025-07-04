@@ -16,6 +16,8 @@ export default defineAppConfig({
         "success/index",
         "details/index",
         "employee/list",
+        "employee/add",
+        "search/index",
       ],
     },
   ],

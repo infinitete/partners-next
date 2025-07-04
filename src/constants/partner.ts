@@ -40,6 +40,7 @@ export interface ExtraData {
   employees: Employee[];
 }
 
+export const POSITIONS = ["总经理", "经理", "前台", "职员", "其他"];
 export const PARTNER_TYPES = ["拖车侠", "保险公司", "拖车公司", "维修公司"];
 export const PAGE_PARTNERS = "PAGE_PARTNERS";
 export const SET_NEARLY_PARTNERS = "SET_NEARLY_PARTNERS";

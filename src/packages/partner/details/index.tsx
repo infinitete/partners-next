@@ -2,8 +2,8 @@ import PartnerComp from "@/comps/partner";
 import { ExtraData, Partner } from "@/constants/partner";
 import R from "@/requestor";
 import { Map, Image, View, Text } from "@tarojs/components";
-import Taro, { useLoad } from "@tarojs/taro";
-import { FC, useCallback, useEffect, useState } from "react";
+import Taro, { useDidShow, useLoad } from "@tarojs/taro";
+import { FC, useCallback, useState } from "react";
 import Desciption from "@/comps/description";
 import "./index.scss";
 import dayjs from "dayjs";
@@ -18,10 +18,7 @@ interface Props {
 }
 
 const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
-  useEffect(() => {}, []);
-
   const onEmployeeWrapperClick = useCallback(() => {
-    Taro.setStorageSync(`employees-${partner.id}`, extraData.employees);
     Taro.navigateTo({
       url: `/packages/partner/employee/list?partner=${partner.id}`,
     });
@@ -171,6 +168,10 @@ const Index: FC = () => {
       return;
     }
     getPartner(id);
+  });
+
+  useDidShow(() => {
+    partner ? getPartner(partner.id) : "";
   });
 
   return (

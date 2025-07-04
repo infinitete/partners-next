@@ -318,6 +318,45 @@ export namespace Requestor {
         GET,
       );
     }
+
+    // 获取合作伙伴联系人信息
+    async getPartnerEmployees<T>(
+      id: number,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/employees/${id}`,
+        GET,
+      );
+    }
+
+    // 创建联系人
+    async createEmployee<T>(
+      pid: number,
+      name: string,
+      phone: string,
+      position: string,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/employee/create`,
+        POST,
+        JSON.stringify({ pid, name, phone, position }),
+      );
+    }
+
+    // 更新联系人
+    async updateEmployee<T>(
+      id: number,
+      pid: number,
+      name: string,
+      phone: string,
+      position: string,
+    ): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/employee/update`,
+        POST,
+        JSON.stringify({ id, pid, name, phone, position }),
+      );
+    }
   }
 }
 

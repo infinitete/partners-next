@@ -1,20 +1,47 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { View } from "@tarojs/components";
-import Taro, { useLoad } from "@tarojs/taro";
+import Taro, { useDidShow, useLoad } from "@tarojs/taro";
 import { Employee } from "@/constants/partner";
 import Empty from "@/comps/empty";
 import EmployeyComp from "@/comps/employee";
 import Button from "@/comps/button";
+import R from "@/requestor";
 import "./list.scss";
 
 const Index: FC = () => {
+  const [partner, setPartner] = useState(0);
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useLoad(async (data: { partner: string }) => {
-    const ext = Taro.getStorageSync<Employee[]>(`employees-${data.partner}`);
-    setEmployees(ext);
-    Taro.removeStorage({ key: `employees-${data.partner}` });
+    setPartner(parseInt(data.partner));
   });
+
+  const getEmpmploees = useCallback(async () => {
+    if (partner == 0) {
+      return;
+    }
+    try {
+      Taro.showLoading({ title: "获取数据中" });
+      const res = await R.getPartnerEmployees<Employee[]>(partner);
+      if (res.code != 0) {
+        throw res.msg;
+      }
+      Taro.hideLoading();
+      setEmployees(res.data);
+    } catch (e) {
+      Taro.showToast({ title: "获取数据失败", icon: "none" });
+    }
+  }, [partner, setEmployees]);
+
+  useDidShow(() => {
+    getEmpmploees();
+  });
+
+  const onAddButtonClick = useCallback(() => {
+    Taro.navigateTo({
+      url: `/packages/partner/employee/add?partner=${partner}`,
+    });
+  }, [partner]);
 
   return (
     <View className="page" style={{ height: "100vh" }}>
@@ -41,7 +68,7 @@ const Index: FC = () => {
       </View>
 
       <View className="button-wrapper">
-        <Button>添加联系人</Button>
+        <Button onClick={onAddButtonClick}>添加联系人</Button>
       </View>
     </View>
   );

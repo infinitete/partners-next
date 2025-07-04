@@ -8,35 +8,40 @@ import PickerProps from "@tarojs/components/types/Picker";
 import { FC, useState } from "react";
 import CaretRightIcon from "@/assets/icons/caret-right.svg";
 
-import RegionPicker from "./pickers/region";
-
 export type Props = {
   title: string;
   placeholder?: string;
-  defaultValue?: number;
-  range: string[];
-} & PickerProps.PickerSelectorProps;
+  onSelected?: (code: string[], value: string[]) => void;
+} & PickerProps.PickerRegionProps;
 
 const Picker: FC<Props> = (props: Props) => {
-  const [selected, setSelected] = useState(props.defaultValue ?? 0);
+  const [selected, setSelected] = useState<{ code: string[]; value: string[] }>(
+    {
+      code: [],
+      value: [],
+    },
+  );
 
   return (
     <View className="app-form-wrapper">
       <View className="title">{props.title}</View>
       <View className="input-wrapper">
         <WxPicker
-          mode="selector"
+          mode="region"
           {...props}
-          defaultValue={selected}
           onChange={(s) => {
-            setSelected(parseInt(`${s.detail.value}`));
-            if (props.onChange) {
-              props.onChange(s);
+            const { code, value } = s.detail;
+            setSelected({ code, value: value.filter((v) => v != "全部") });
+            if (props.onSelected) {
+              props.onSelected(
+                value.filter((v) => v != "全部"),
+                code,
+              );
             }
           }}
         >
           <WxInput
-            value={props.range[selected].toString()}
+            value={selected.value.join("/")}
             placeholder={props.placeholder}
             placeholderClass="input-placeholder"
             disabled
@@ -48,5 +53,4 @@ const Picker: FC<Props> = (props: Props) => {
   );
 };
 
-export { RegionPicker };
 export default Picker;
