@@ -115,6 +115,7 @@ const Index: FC = () => {
           }
         },
       });
+      return;
     }
 
     Taro.navigateTo({ url: "/packages/partner/list/index" });

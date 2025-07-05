@@ -72,11 +72,15 @@ const Index: FC = () => {
   );
 
   const getData = useCallback(
-    async (page: number = 1, size: number = 10, query: string = "") => {
+    async (page: number = 1, size: number = 10, query: string | null = "") => {
       setReq(true);
       try {
         Taro.showLoading();
-        const res = await R.pagePartner<PageData<Partner>>(page, size, query);
+        const res = await R.pagePartner<PageData<Partner>>(
+          page,
+          size,
+          query ?? "",
+        );
         Taro.hideLoading();
         if (res.code != 0) {
           throw res.msg;
@@ -147,7 +151,7 @@ const Index: FC = () => {
         lowerThreshold={32}
         onScrollToLower={() => {
           if (partners.payload.length < partners.total) {
-            getData(partners.page + 1, partners.size, partners.query);
+            getData(partners.page + 1, partners.size, partners.query ?? "");
           }
         }}
         className="list-wrapper"
