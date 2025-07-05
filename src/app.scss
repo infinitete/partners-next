@@ -1,3 +1,11 @@
+::-webkit-scrollbar {
+  display:none;
+  width:0;
+  height:0;
+  color:transparent;
+}
+
+
 .page {
   width: 100vw;
   min-height: 100vh;

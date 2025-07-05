@@ -19,8 +19,6 @@ const Input: FC<Props> = (props: Props) => {
     defaultValue,
   );
 
-  console.log("address", props.defaultValue);
-
   const mapCtx = Taro.createMapContext("map");
 
   const getLocation = useCallback(

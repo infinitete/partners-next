@@ -15,7 +15,7 @@ const Index: FC<PickerProps> = ({ path, hide, onRemove }) => {
   };
   const onImageClick = useCallback(() => {
     Taro.previewImage({ urls: [path] });
-  }, []);
+  }, [path]);
 
   return (
     <View className="app-image-view" style={style}>

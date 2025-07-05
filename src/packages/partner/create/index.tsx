@@ -26,6 +26,8 @@ const Index: FC = () => {
     height: 1,
   });
 
+  const mapCtx = Taro.createMapContext("c_map");
+
   const appletUser = useSelector((r: ReducersType) => r.AppletUser);
 
   const [name, setName] = useState("");
@@ -179,6 +181,7 @@ const Index: FC = () => {
       if (p.code !== 0) {
         throw p.msg;
       }
+      partner.id = p.data.id;
       Taro.hideLoading();
       Taro.showToast({ title: "提交成功", icon: "success" });
     } catch (e) {
@@ -202,7 +205,7 @@ const Index: FC = () => {
     <View className="page">
       <View className="map-wrapper">
         <Map
-          id="map"
+          id="c_map"
           onError={console.log}
           className="map"
           latitude={pos.lat}
@@ -212,6 +215,17 @@ const Index: FC = () => {
           showScale
           enableTraffic
           enableZoom
+          markers={[
+            {
+              id: 1,
+              latitude: pos.lat,
+              longitude: pos.lng,
+              title: name,
+              iconPath: "",
+              width: 30,
+              height: 46,
+            },
+          ]}
         />
       </View>
       <View className="form-wrapper">
@@ -236,7 +250,24 @@ const Index: FC = () => {
           <Mapper
             title="位置"
             placeholder="合作伙伴位置"
-            onSuccess={(l) => setLocation(l)}
+            onSuccess={(l) => {
+              setLocation(l);
+              const marker = {
+                id: l.latitude,
+                longitude: l.longitude,
+                latitude: l.latitude,
+                name: name,
+                iconPath: "",
+                width: 30,
+                height: 46,
+              };
+
+              mapCtx.moveToLocation({
+                latitude: l.latitude,
+                longitude: l.longitude,
+              });
+              mapCtx.addMarkers({ markers: [marker], clear: true });
+            }}
           />
         </View>
         <View className="images">

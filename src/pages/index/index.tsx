@@ -134,10 +134,14 @@ const Index: FC = () => {
           className="map"
           latitude={pos.lat}
           longitude={pos.lng}
-          includePoints={nearlyPartners.map((p) => ({
-            latitude: parseFloat(p.latitude),
-            longitude: parseFloat(p.longitude),
-          }))}
+          includePoints={nearlyPartners
+            .map((p) => ({
+              latitude: parseFloat(p.latitude),
+              longitude: parseFloat(p.longitude),
+            }))
+            .filter(
+              (p) => !(Number.isNaN(p.latitude) || Number.isNaN(p.longitude)),
+            )}
           showCompass
           showLocation
           showScale

@@ -27,6 +27,7 @@ interface Picture {
 const Index: FC = () => {
   const [id, setId] = useState(0);
   const [partner, setPartner] = useState<Partner | undefined>(undefined);
+  const mapCtx = Taro.createMapContext("map");
 
   const [pos, setPos] = useState<{ lng: number; lat: number }>({
     lng: 106.63,
@@ -308,6 +309,7 @@ const Index: FC = () => {
       <View className="map-wrapper">
         <Map
           id="map"
+          key={pos.lat}
           onError={console.log}
           className="map"
           latitude={pos.lat}
@@ -363,7 +365,20 @@ const Index: FC = () => {
               districtCode: partner?.districtCode ?? "",
               address: partner?.address ?? "",
             }}
-            onSuccess={(l) => setLocation(l)}
+            onSuccess={(l) => {
+              setLocation(l);
+              const marker = {
+                id: l.latitude,
+                longitude: l.longitude,
+                latitude: l.latitude,
+                name: partner?.name ?? "",
+                iconPath: "",
+                width: 30,
+                height: 46,
+              };
+
+              mapCtx.addMarkers({ markers: [marker], clear: true });
+            }}
           />
         </View>
         <View className="images">
