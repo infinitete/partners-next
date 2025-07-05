@@ -242,6 +242,7 @@ const Index: FC = () => {
         <View className="images">
           <View className="item">
             <Imager
+              mode="picker"
               onChange={(paths) => {
                 setDoorPics(paths);
               }}
@@ -252,6 +253,7 @@ const Index: FC = () => {
           <View className="flex-1">&nbsp;</View>
           <View className="item">
             <Imager
+              mode="picker"
               onChange={(paths) => {
                 setPanoramaPics([...paths]);
               }}

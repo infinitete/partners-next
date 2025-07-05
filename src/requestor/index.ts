@@ -8,27 +8,27 @@ const GET = "GET";
 
 interface Method {
   /** HTTP 请求 OPTIONS */
-  OPTIONS;
+  OPTIONS: string;
   /** HTTP 请求 GET */
-  GET;
+  GET: string;
   /** HTTP 请求 HEAD */
-  HEAD;
+  HEAD: string;
   /** HTTP 请求 POST */
-  POST;
+  POST: string;
   /** HTTP 请求 PUT */
-  PUT;
+  PUT: string;
   /** HTTP 请求 PATCH */
-  PATCH;
+  PATCH: string;
   /** HTTP 请求 DELETE */
-  DELETE;
+  DELETE: string;
   /** HTTP 请求 TRACE */
-  TRACE;
+  TRACE: string;
   /** HTTP 请求 CONNECT */
-  CONNECT;
+  CONNECT: string;
 }
 
 export namespace Requestor {
-  export const SERVER = "http://192.168.0.185:8000";
+  export const SERVER = "http://192.168.2.8:8000";
 
   export const OSS_SERVER = "https://oss.trailerman.cn";
   export const ALI_OSS = "https://tcx.oss-cn-chengdu.aliyuncs.com";
@@ -326,6 +326,15 @@ export namespace Requestor {
       return await this.doRequest<T>(
         `${this.server}/v2/applet/partner/employees/${id}`,
         GET,
+      );
+    }
+
+    // 更新合作伙伴信息
+    async updatePartner<T>(partner: T): Promise<Requestor.Options.Result<T>> {
+      return await this.doRequest<T>(
+        `${this.server}/v2/applet/partner/update`,
+        POST,
+        JSON.stringify(partner),
       );
     }
 

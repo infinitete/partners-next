@@ -334,3 +334,136 @@
   border: 2px solid rgba(1, 145, 255, 1);
   transition-duration: 0.25s;
 }
+
+
+.app-imager {
+  .title {
+    color: #1A1C24;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  .items {
+    display: flex;
+    flex-flow: row wrap;
+
+    .item {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      margin: 8px;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      border: 2px solid rgba(26, 28, 24, 0.2);
+      transition-duration: 0.25s;
+      border-radius: 8px;
+
+      .add-icon {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        image {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      .selected-pic {
+        width: 200px;
+        height: 200px;
+        position: relative;
+
+        image {
+          width: 200px;
+          height: 200px;
+        }
+
+        .clear {
+          position: absolute;
+          right: 8px;
+          top: 8px;
+          width: 32px;
+          height: 32px;
+          padding: 4px;
+          background-color: rgba(255,255,255,0.5);
+
+          image {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+    }
+
+    .item:hover{
+      border: 2px solid rgba(1, 145, 255, 1);
+      transition-duration: 0.25s;
+    }
+  }
+}
+
+.app-image-picker {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  margin: 8px;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 2px solid rgba(26, 28, 24, 0.2);
+  transition-duration: 0.25s;
+  border-radius: 8px;
+
+  .add-icon {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    image {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+
+.app-image-view {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  margin: 8px;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 2px solid rgba(26, 28, 24, 0.2);
+  transition-duration: 0.25s;
+  border-radius: 8px;
+  position: relative;
+
+  .image {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .clear-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    background-color: rgba(255,255,255,0.5);
+
+    image {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

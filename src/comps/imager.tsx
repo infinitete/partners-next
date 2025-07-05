@@ -1,77 +1,52 @@
 import { FC, useCallback, useState } from "react";
-import { View, Image } from "@tarojs/components";
-import AddIcon from "@/assets/icons/add.svg";
-import ClearIcon from "@/assets/icons/clear.svg";
-import Taro from "@tarojs/taro";
+import { View } from "@tarojs/components";
+import { Viewer, Picker } from "./imager/index";
+
+interface ImagerMode {
+  viwer: string;
+  picker: string;
+}
 
 export interface ImagerProps {
   title: string;
   count: number;
-  read?: boolean;
+  mode: keyof ImagerMode;
   items?: string[];
-  onChange: (paths: string[]) => void;
+  removable?: boolean;
+  onChange: (paths: string[], index: number) => void;
 }
 
-interface IterProps {
-  read?: boolean;
-  url: string;
+interface ItemProps {
+  url?: string;
+  mode: keyof ImagerMode;
   onSuccess: (path: string) => void;
   onError?: () => void;
 }
 
-const Item: FC<IterProps> = ({ onSuccess, onError, read, url }) => {
-  const [path, setPath] = useState(read ? url : "");
+const Item: FC<ItemProps> = ({ onSuccess, mode, onError, url }) => {
+  const [path, setPath] = useState(url ?? "");
 
-  const onImageClick = useCallback(async () => {
-    if (path == "") {
-      try {
-        const res = await Taro.chooseImage({
-          count: 1,
-          sourceType: ["camera", "album"],
-        });
-        setPath(res.tempFilePaths[0]);
-        onSuccess(res.tempFilePaths[0]);
-      } catch (e) {
-        onError ? onError() : console.error(e);
-      }
-    } else {
-      Taro.previewImage({
-        urls: [path],
-      });
-    }
-  }, [path, setPath]);
+  const onChange = (path: string) => {
+    setPath(path);
+    onSuccess(path);
+  };
+
+  const showView = mode == "viwer" || (mode == "picker" && path != "");
+  const showPicker = mode == "picker" && path == "";
 
   return (
     <View className="item">
-      <View
-        className="add-icon"
-        onClick={onImageClick}
-        style={{ display: !read && path == "" ? "flex" : "none" }}
-      >
-        <Image src={AddIcon} />
-      </View>
-      <View
-        className="selected-pic"
-        onClick={onImageClick}
-        style={{ display: path == "" ? "none" : "block" }}
-      >
-        <Image src={path} />
-        <View className="clear" style={{ display: read ? "none" : "block" }}>
-          <Image
-            src={ClearIcon}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setPath("");
-            }}
-          />
-        </View>
-      </View>
+      <Viewer
+        hide={!showView}
+        path={path}
+        onRemove={mode == "picker" ? (_) => onChange("") : undefined}
+      />
+      <Picker hide={!showPicker} onChange={onChange} onError={onError} />
     </View>
   );
 };
 
-const Imager: FC<ImagerProps> = ({ title, count, onChange, read, items }) => {
+const Imager: FC<ImagerProps> = ({ title, count, mode, onChange, items }) => {
   const q = new Array(count).fill(0);
   const [paths, setPaths] = useState<string[]>([]);
 
@@ -91,7 +66,7 @@ const Imager: FC<ImagerProps> = ({ title, count, onChange, read, items }) => {
       const nextPaths = [...paths];
       nextPaths[idx] = path;
       setPaths(nextPaths);
-      onChange(nextPaths);
+      onChange(nextPaths, idx);
     },
     [paths, setPaths],
   );
@@ -104,8 +79,8 @@ const Imager: FC<ImagerProps> = ({ title, count, onChange, read, items }) => {
       <View className="items">
         {q.map((_, idx) => (
           <Item
-            key={idx}
-            read={read}
+            mode={mode}
+            key={getItem(idx) ?? idx}
             url={getItem(idx)}
             onSuccess={(path: string) => onItemsChange(idx, path)}
           />

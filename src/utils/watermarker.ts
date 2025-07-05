@@ -4,21 +4,21 @@ import LogoIcon from "@/assets/logo.png";
 
 interface orientation {
   /** 默认方向（手机横持拍照），对应 Exif 中的 1。或无 orientation 信息。 */
-  up;
+  up: string;
   /** 同 up，但镜像翻转，对应 Exif 中的 2 */
-  "up-mirrored";
+  "up-mirrored": string;
   /** 旋转180度，对应 Exif 中的 3 */
-  down;
+  down: string;
   /** 同 down，但镜像翻转，对应 Exif 中的 4 */
-  "down-mirrored";
+  "down-mirrored": string;
   /** 同 left，但镜像翻转，对应 Exif 中的 5 */
-  "left-mirrored";
+  "left-mirrored": string;
   /** 顺时针旋转90度，对应 Exif 中的 6 */
-  right;
+  right: string;
   /** 同 right，但镜像翻转，对应 Exif 中的 7 */
-  "right-mirrored";
+  "right-mirrored": string;
   /** 逆时针旋转90度，对应 Exif 中的 8 */
-  left;
+  left: string;
 }
 
 type ChooseImageResult = {

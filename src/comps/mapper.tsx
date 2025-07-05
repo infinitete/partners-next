@@ -9,13 +9,18 @@ import { AppLocation } from "@/constants/partner";
 export type Props = {
   title: string;
   placeholder?: string;
+  defaultValue?: AppLocation;
   onSuccess?: (location: AppLocation) => void;
 };
 
 const Input: FC<Props> = (props: Props) => {
+  const { defaultValue } = props;
   const [pageLocation, setPageLocation] = useState<AppLocation | undefined>(
-    undefined,
+    defaultValue,
   );
+
+  console.log("address", props.defaultValue);
+
   const mapCtx = Taro.createMapContext("map");
 
   const getLocation = useCallback(
@@ -46,56 +51,73 @@ const Input: FC<Props> = (props: Props) => {
     [],
   );
 
-  const onClick = useCallback(async () => {
-    try {
-      const res = await Taro.chooseLocation({});
-      mapCtx.moveToLocation({
-        longitude: res.longitude,
-        latitude: res.latitude,
-      });
-      if (pageLocation != undefined) {
-        mapCtx.removeMarkers({ markerIds: [`${pageLocation.id}`] });
-      }
-
-      const location = await getLocation(
-        res.address,
-        res.longitude,
-        res.latitude,
-      );
-
-      if (props.onSuccess && location != undefined) {
-        mapCtx.addMarkers({
-          markers: [
-            {
-              id: location.id,
-              latitude: res.latitude,
-              longitude: res.longitude,
-              iconPath: "",
-              width: 30,
-              height: 46,
-            },
-          ],
-        });
+  const onClick = useCallback(
+    async (point?: { latitude: number; longitude: number }) => {
+      try {
+        const res = await Taro.chooseLocation({ ...point });
         mapCtx.moveToLocation({
-          latitude: res.latitude,
           longitude: res.longitude,
+          latitude: res.latitude,
         });
+        if (pageLocation != undefined) {
+          mapCtx.removeMarkers({ markerIds: [`${pageLocation.id}`] });
+        }
 
-        props.onSuccess(location);
-        setPageLocation(location);
+        const location = await getLocation(
+          res.address,
+          res.longitude,
+          res.latitude,
+        );
+
+        if (props.onSuccess && location != undefined) {
+          mapCtx.addMarkers({
+            markers: [
+              {
+                id: location.id,
+                latitude: res.latitude,
+                longitude: res.longitude,
+                iconPath: "",
+                width: 30,
+                height: 46,
+              },
+            ],
+          });
+          mapCtx.moveToLocation({
+            latitude: res.latitude,
+            longitude: res.longitude,
+          });
+
+          props.onSuccess(location);
+          setPageLocation(location);
+        }
+      } catch (e) {
+        console.error(e);
+        Taro.showToast({ title: "打开地图失败", icon: "error" });
       }
-    } catch (e) {
-      console.error(e);
-      Taro.showToast({ title: "打开地图失败", icon: "error" });
-    }
-  }, []);
+    },
+    [pageLocation, setPageLocation],
+  );
 
   return (
     <View className="app-form-wrapper">
       <View className="title">{props.title}</View>
-      <View className="input-wrapper" onClick={onClick}>
+      <View
+        className="input-wrapper"
+        onClick={() => {
+          onClick(
+            defaultValue
+              ? {
+                  latitude: defaultValue.latitude,
+                  longitude: defaultValue.longitude,
+                }
+              : undefined,
+          );
+        }}
+      >
         <WxInput
+          key={defaultValue?.latitude}
           type="text"
+          defaultValue={defaultValue?.address}
           value={pageLocation?.address}
           placeholder={props.placeholder}
           placeholderClass="input-placeholder"

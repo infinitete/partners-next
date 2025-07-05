@@ -56,14 +56,20 @@ const Index: FC = () => {
     setQueryMap(q);
   });
 
-  const onSearchClick = useCallback(() => {
-    const { query } = partners;
-    if (query && query.length > 0) {
-      getData(1, partners.size, "");
-      return;
-    }
-    Taro.navigateTo({ url: "/packages/partner/search/index" });
-  }, [partners]);
+  const onSearchClick = useCallback(
+    (from: string) => {
+      if (from == "icon") {
+        const { query } = partners;
+        if (query && query.length > 0) {
+          getData(1, partners.size, "");
+          return;
+        }
+      } else if (from == "input") {
+        Taro.navigateTo({ url: "/packages/partner/search/index" });
+      }
+    },
+    [partners],
+  );
 
   const getData = useCallback(
     async (page: number = 1, size: number = 10, query: string = "") => {
@@ -82,7 +88,6 @@ const Index: FC = () => {
         dispatch(pagePartners(nextData));
         setReq(false);
         if (query != "") {
-          console.log("Query", query);
           setQueryMap(getQueryMap(query) ?? []);
         } else {
           setQueryMap([]);
@@ -109,17 +114,20 @@ const Index: FC = () => {
   return (
     <View className="page" style={{ height: "100vh" }}>
       <View className="search-wrapper">
-        <View className="input" onClick={onSearchClick}>
+        <View className="input" onClick={() => onSearchClick("input")}>
           <Input
             disabled
+            placeholderStyle={
+              "text-overflow: ellipsis; overflow:hidden; white-space: nowrap; font-size: 12px;"
+            }
             placeholder={
               queryMap.length > 0
                 ? queryMap.map((k) => `${k.key}:${k.value}`).join(" ")
-                : `搜索 - ${queryMap.length}`
+                : `搜索`
             }
           />
         </View>
-        <View className="icon" onClick={onSearchClick}>
+        <View className="icon" onClick={() => onSearchClick("icon")}>
           <Image
             src={
               partners.query && partners.query != ""

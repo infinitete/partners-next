@@ -24,6 +24,10 @@ const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
     });
   }, []);
 
+  const onEditBtnClick = () => {
+    Taro.navigateTo({ url: `/packages/partner/edit/index?id=${partner.id}` });
+  };
+
   return (
     <View className="partner-wrapper">
       <Map
@@ -86,19 +90,21 @@ const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
       <View className="images">
         <View className="item">
           <Imager
+            mode="viwer"
             title="门头照"
             onChange={console.log}
             count={1}
-            read
+            removable
             items={[getFileByOID(partner.doorPhoto)]}
           />
         </View>
         <View className="item" style={{ marginLeft: "8px" }}>
           <Imager
+            mode="viwer"
             title="远景照"
             onChange={console.log}
             count={1}
-            read
+            removable
             items={[getFileByOID(partner.panoramaPhoto)]}
           />
         </View>
@@ -123,7 +129,7 @@ const PartnerRenderer: React.FC<Props> = ({ partner, extraData }) => {
 
       <View className="actions">
         <View className="action-item">
-          <Button>修改</Button>
+          <Button onClick={onEditBtnClick}>修改</Button>
         </View>
       </View>
     </View>

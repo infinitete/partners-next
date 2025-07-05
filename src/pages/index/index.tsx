@@ -121,7 +121,7 @@ const Index: FC = () => {
   }, [appletUser]);
 
   useDidShow(() => {
-    /* Taro.navigateTo({ url: "/packages/partner/search/index" }); */
+    /* Taro.navigateTo({ url: "/packages/partner/edit/index?id=1632" }); */
     getCurrentLocation().then();
   });
 

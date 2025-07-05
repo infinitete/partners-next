@@ -18,13 +18,14 @@ export default defineAppConfig({
         "employee/list",
         "employee/add",
         "search/index",
+        "edit/index",
       ],
     },
   ],
   window: {
     backgroundTextStyle: "light",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTitleText: "wa",
+    navigationBarBackgroundColor: "#F5F7FA",
+    navigationBarTitleText: "合作伙伴信息采集助手",
     navigationBarTextStyle: "black",
   },
   permission: {
