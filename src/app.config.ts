@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
-    "pages/user/index",
     "pages/index/index",
+    "pages/user/index",
     "pages/login/index",
     "pages/auth/index",
     "pages/auth/code",
@@ -9,14 +9,19 @@ export default defineAppConfig({
     "pages/agreement/yinsi/index",
   ],
   tabBar: {
+    selectedColor: "#0fb3ff",
     list: [
-      {
-        pagePath: "pages/user/index",
-        text: "我的",
-      },
       {
         pagePath: "pages/index/index",
         text: "首页",
+        iconPath: "./assets/tabbar/home_default.png",
+        selectedIconPath: "./assets/tabbar/home_active.png",
+      },
+      {
+        pagePath: "pages/user/index",
+        text: "我的",
+        iconPath: "./assets/tabbar/user_default.png",
+        selectedIconPath: "./assets/tabbar/user_active.png",
       },
     ],
   },

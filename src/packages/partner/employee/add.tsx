@@ -11,6 +11,8 @@ import R from "@/requestor";
 import { POSITIONS } from "@/constants/partner";
 
 import "./add.scss";
+import { useSelector } from "react-redux";
+import { ReducersType } from "@/reducers";
 
 const namePattern = /^[\u4e00-\u9fa5]{2,6}$/;
 const phonePattern =
@@ -22,13 +24,22 @@ const Index: FC = () => {
   const [phone, setPhone] = useState("");
   const [position, setPosition] = useState(0);
 
+  const user = useSelector((r: ReducersType) => r.AppletUser);
+
   useLoad((data: { partner: string }) => {
+    if (user == null) {
+      Taro.navigateBack();
+      return;
+    }
+
     if (data.partner == "" || data.partner == undefined) {
       Taro.navigateBack();
+      return;
     }
     let pid = parseInt(data.partner);
     if (Number.isNaN(pid)) {
       Taro.navigateBack();
+      return;
     }
     setPid(pid);
   });

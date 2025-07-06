@@ -1,11 +1,13 @@
-import { View } from "@tarojs/components";
-import { FC, useCallback } from "react";
-import "./index.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { ReducersType } from "@/reducers";
-import Taro, { useDidShow } from "@tarojs/taro";
-import Button from "@/comps/button";
 import { setUser } from "@/actions";
+import Button from "@/comps/button";
+import { ReducersType } from "@/reducers";
+import { Text, View, Image } from "@tarojs/components";
+import Taro, { useDidShow } from "@tarojs/taro";
+import { FC, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./index.scss";
+
+import SettingIcon from "@/assets/icons/setting.svg";
 
 const Index: FC = () => {
   // 从状态管理器中读取当前登录用户
@@ -27,11 +29,20 @@ const Index: FC = () => {
   return (
     <View className="page">
       <View className="main">
-        <View className="user-wrapper block-wrapper"></View>
+        <View className="user-wrapper block-wrapper">
+          <View className="name">
+            <Text>{user?.name ?? "未认证"}</Text>
+          </View>
+          <View className="summary flex-1">
+            <Image className="setting-icon" src={SettingIcon} />
+          </View>
+        </View>
         <View className="actions-wrapper block-wrapper"></View>
       </View>
       <View className="btn-wrapper">
-        <Button onClick={onLogoutBtnClick}>退出登录</Button>
+        <Button rev onClick={onLogoutBtnClick}>
+          退出登录
+        </Button>
       </View>
     </View>
   );
