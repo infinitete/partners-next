@@ -1,0 +1,17 @@
+.main {
+  flex: 1;
+
+  .user-wrapper {
+    min-height: 100px;
+  }
+
+  .actions-wrapper {
+    margin-top: 36px;
+    min-height: 100px;
+  }
+}
+
+.btn-wrapper {
+  width: calc(100vw - 72px);
+  margin-bottom: 32px;
+}

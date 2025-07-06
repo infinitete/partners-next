@@ -1,5 +1,6 @@
 export default defineAppConfig({
   pages: [
+    "pages/user/index",
     "pages/index/index",
     "pages/login/index",
     "pages/auth/index",
@@ -7,6 +8,18 @@ export default defineAppConfig({
     "pages/agreement/user/index",
     "pages/agreement/yinsi/index",
   ],
+  tabBar: {
+    list: [
+      {
+        pagePath: "pages/user/index",
+        text: "我的",
+      },
+      {
+        pagePath: "pages/index/index",
+        text: "首页",
+      },
+    ],
+  },
   subPackages: [
     {
       root: "packages/partner",

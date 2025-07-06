@@ -28,8 +28,8 @@ interface Method {
 }
 
 export namespace Requestor {
-  export const SERVER = "http://192.168.2.8:8000";
-  // export const SERVER = "https://partners.trailerman.cn";
+  // export const SERVER = "http://192.168.2.8:8000";
+  export const SERVER = "https://partners.trailerman.cn";
 
   export const OSS_SERVER = "https://oss.trailerman.cn";
   export const ALI_OSS = "https://tcx.oss-cn-chengdu.aliyuncs.com";

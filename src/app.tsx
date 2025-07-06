@@ -1,28 +1,12 @@
-import { Component, PropsWithChildren } from 'react'
-import { Provider } from 'react-redux'
+import { FC, PropsWithChildren } from "react";
+import { Provider } from "react-redux";
+import configStore from "./store";
+import "./app.scss";
 
-import configStore from './store'
+const store = configStore();
 
-import './app.scss'
+const NextApp: FC<PropsWithChildren> = ({ children }) => {
+  return <Provider store={store}>{children}</Provider>;
+};
 
-const store = configStore()
-
-class App extends Component<PropsWithChildren> {
-  componentDidMount () {}
-
-  componentDidShow () {}
-
-  componentDidHide () {}
-
-  // 在 App 类中的 render() 函数没有实际作用
-  // 请勿修改此函数
-  render () {
-    return (
-      <Provider store={store}>
-        {this.props.children}
-      </Provider>
-    )
-  }
-}
-
-export default App
+export default NextApp;

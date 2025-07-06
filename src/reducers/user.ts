@@ -3,8 +3,6 @@ import { AppletUser, SET_USER } from "@/constants/user";
 import Taro from "@tarojs/taro";
 
 const getUserFromStorage = () => {
-  console.log("初始化用户...");
-
   const token = Taro.getStorageSync<{ token: string; expire: number }>("token");
   if (token == undefined || `${token}` == "") {
     return null;
@@ -14,8 +12,6 @@ const getUserFromStorage = () => {
     Taro.removeStorage({ key: "token" });
     return null;
   }
-
-  console.log("Token", token);
 
   const user = Taro.getStorageSync<AppletUser>("user");
   if (user == undefined || `${user}` == "") {
