@@ -4,12 +4,16 @@ import { FC } from "react";
 export interface ButtonProps {
   children?: React.ReactNode;
   rev?: boolean;
+  disabled?: boolean;
   onClick?: (evt: ITouchEvent) => void;
 }
 
-const Button: FC<ButtonProps> = ({ children, rev, onClick }) => {
+const Button: FC<ButtonProps> = ({ children, rev, onClick, disabled }) => {
   return (
-    <View onClick={onClick} className={rev ? "app-btn-rev" : "app-btn"}>
+    <View
+      onClick={!disabled ? onClick : () => {}}
+      className={rev ? "app-btn-rev" : "app-btn"}
+    >
       {children}
     </View>
   );

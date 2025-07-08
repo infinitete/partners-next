@@ -23,8 +23,16 @@ const Index: FC = () => {
 
   const dispatch = useDispatch();
   const onLogoutBtnClick = useCallback(() => {
-    dispatch(setUser(null));
-  }, []);
+    if (user != null) {
+      Taro.showModal({
+        title: "确认",
+        content: "确认要退出登录吗?",
+        success: (s) => (s.confirm ? dispatch(setUser(null)) : ""),
+      });
+    } else {
+      Taro.navigateTo({ url: "/pages/login/index" });
+    }
+  }, [user]);
 
   return (
     <View className="page">
@@ -37,11 +45,14 @@ const Index: FC = () => {
             <Image className="setting-icon" src={SettingIcon} />
           </View>
         </View>
-        <View className="actions-wrapper block-wrapper"></View>
+        <View
+          className="actions-wrapper block-wrapper"
+          style={{ display: "none" }}
+        ></View>
       </View>
       <View className="btn-wrapper">
-        <Button rev onClick={onLogoutBtnClick}>
-          退出登录
+        <Button rev={user != null} onClick={onLogoutBtnClick}>
+          {user != null ? "退出登录" : "登录"}
         </Button>
       </View>
     </View>

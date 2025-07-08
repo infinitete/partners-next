@@ -30,6 +30,7 @@ const Index: FC = () => {
 
   const appletUser = useSelector((r: ReducersType) => r.AppletUser);
 
+  const [reqing, setReqing] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState(3);
   const [location, setLocation] = useState<AppLocation | undefined>();
@@ -95,6 +96,11 @@ const Index: FC = () => {
 
   // 提交
   const onSubmit = useCallback(async () => {
+    if (reqing) {
+      console.log("重复提交...");
+      return;
+    }
+
     if (name == "") {
       Taro.showToast({ title: "请输入名称", icon: "none" });
       return;
@@ -112,6 +118,8 @@ const Index: FC = () => {
     if (panoramaPics.length == 0) {
       Taro.showToast({ title: "请上远景照", icon: "none" });
     }
+
+    setReqing(true);
 
     let waterMarkerdDoorpic = "";
     let waterMarkerdPanoramaPic = "";
@@ -132,6 +140,7 @@ const Index: FC = () => {
       );
       Taro.hideLoading();
     } catch (e) {
+      setReqing(false);
       console.error("处理图片失败", e);
       Taro.hideLoading();
       Taro.showToast({ title: "处理图片失败", icon: "error" });
@@ -155,6 +164,7 @@ const Index: FC = () => {
       );
       Taro.hideLoading();
     } catch (e) {
+      setReqing(false);
       Taro.hideLoading();
       Taro.showToast({ title: "上传图片失败" });
     }
@@ -185,6 +195,7 @@ const Index: FC = () => {
       Taro.hideLoading();
       Taro.showToast({ title: "提交成功", icon: "success" });
     } catch (e) {
+      setReqing(false);
       Taro.hideLoading();
       Taro.showModal({
         title: "出现错误",
@@ -192,6 +203,7 @@ const Index: FC = () => {
       });
       return;
     }
+    setReqing(false);
     resetFields();
     const t = setTimeout(() => {
       Taro.navigateTo({
@@ -199,7 +211,16 @@ const Index: FC = () => {
       });
       clearTimeout(t);
     }, 2000);
-  }, [name, type, location, doorPics, panoramaPics, waterMarker, resetFields]);
+  }, [
+    name,
+    type,
+    location,
+    doorPics,
+    panoramaPics,
+    waterMarker,
+    resetFields,
+    setReqing,
+  ]);
 
   return (
     <View className="page">
@@ -295,7 +316,9 @@ const Index: FC = () => {
         </View>
       </View>
       <View className="btn-wrapper">
-        <Button onClick={onSubmit}>提交</Button>
+        <Button disabled={reqing} onClick={onSubmit}>
+          提交
+        </Button>
       </View>
       <Canvas
         type="2d"

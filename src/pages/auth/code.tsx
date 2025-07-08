@@ -58,7 +58,7 @@ const Index: FC = () => {
       dispatch({ type: SET_USER, user: res.data });
       Taro.showToast({ title: "认证成功", icon: "success" });
       const t = setTimeout(() => {
-        Taro.navigateTo({ url: "/pages/index/index" });
+        Taro.switchTab({ url: "/pages/index/index" });
         clearTimeout(t);
       }, 2000);
     } catch (e) {

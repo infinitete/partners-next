@@ -72,7 +72,9 @@ const Index: FC = () => {
     }
   }, [pid, name, phone, position, setName, setPhone, setPosition]);
 
-  console.log("position", position);
+  if (user == null || user.auth == false) {
+    return <></>;
+  }
 
   return (
     <View className="page">
