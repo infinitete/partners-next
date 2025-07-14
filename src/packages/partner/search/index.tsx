@@ -6,8 +6,8 @@ import { RegionPicker } from "@/comps/picker";
 import R from "@/requestor";
 
 import "./index.scss";
-import { PageData } from "@/constants/common";
-import { Partner } from "@/constants/partner";
+import { PageData, PageQuerier } from "@/constants/common";
+import { Partner, PartnerQuerier } from "@/constants/partner";
 import Taro from "@tarojs/taro";
 import { useDispatch } from "react-redux";
 import { pagePartners } from "@/actions";
@@ -15,6 +15,7 @@ import { pagePartners } from "@/actions";
 const Index: FC = () => {
   const [regions, setRegions] = useState<string[]>([]);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const onRegionSelected = useCallback((regions: string[], _: string[]) => {
     setRegions(regions);
   }, []);
@@ -22,23 +23,22 @@ const Index: FC = () => {
   const dispatch = useDispatch();
 
   const queryPartners = useCallback(async () => {
-    let query = Array<string>();
-    if (name.trim().length > 0) {
-      query.push(`\`name\` like '%${name}%'`);
-    }
-
-    if (regions.length > 0) {
-      query.push(`\`district_name\` like '${regions.join("/")}%'`);
-    }
-
-    let q = "";
-    if (query.length > 0) {
-      q = encodeURIComponent(query.join(" AND "));
-    }
+    let q: PageQuerier<PartnerQuerier> = {
+      page: 1,
+      size: 10,
+      query: {
+        name,
+        phone,
+        district: regions.join("/"),
+      },
+    };
 
     try {
       Taro.showLoading({ title: "正在搜索" });
-      const res = await R.pagePartner<PageData<Partner>>(1, 10, q);
+      const res = await R.pagePartner<
+        PageData<Partner, PageQuerier<PartnerQuerier>>,
+        PartnerQuerier
+      >(q);
       Taro.hideLoading();
       if (res.code != 0) {
         throw res.msg;
@@ -52,7 +52,7 @@ const Index: FC = () => {
     } catch (e) {
       Taro.showToast({ title: "搜索失败", icon: "error" });
     }
-  }, [name, regions]);
+  }, [name, regions, phone]);
 
   return (
     <View className="page">
@@ -71,6 +71,12 @@ const Index: FC = () => {
           placeholder="所在区域"
           onChange={console.log}
           onSelected={onRegionSelected}
+        />
+        <Input
+          type="number"
+          title="手机"
+          placeholder="搜索的联系人电话"
+          onInput={(e) => setPhone(e.detail.value)}
         />
       </view>
       <View className="history-wrapper"></View>

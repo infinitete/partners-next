@@ -1,17 +1,18 @@
 import { PagePartnersType, SetNearlyPartnersType } from "@/actions";
-import { PageData } from "@/constants/common";
+import { PageData, PageQuerier } from "@/constants/common";
 import {
   Partner,
+  PartnerQuerier,
   PAGE_PARTNERS,
   SET_NEARLY_PARTNERS,
 } from "@/constants/partner";
 
 const Partners = (
-  partners: PageData<Partner> = {
+  partners: PageData<Partner, PageQuerier<PartnerQuerier>> = {
     page: 0,
     size: 10,
     total: 0,
-    query: "",
+    query: undefined,
     payload: [],
   },
   action: PagePartnersType,

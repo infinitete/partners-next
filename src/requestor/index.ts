@@ -2,6 +2,7 @@ import Taro, { request as TaroRequest } from "@tarojs/taro";
 import MD5 from "md5";
 import * as Base64 from "js-base64";
 import B64HmacSha1 from "../utils/hmac_sha1";
+import { PageQuerier } from "@/constants/common";
 
 const POST = "POST";
 const GET = "GET";
@@ -28,8 +29,8 @@ interface Method {
 }
 
 export namespace Requestor {
-  // export const SERVER = "http://192.168.2.8:8000";
-  export const SERVER = "https://partners.trailerman.cn";
+  export const SERVER = "http://192.168.2.8:8000";
+  // export const SERVER = "https://partners.trailerman.cn";
 
   export const OSS_SERVER = "https://oss.trailerman.cn";
   export const ALI_OSS = "https://tcx.oss-cn-chengdu.aliyuncs.com";
@@ -270,14 +271,13 @@ export namespace Requestor {
     }
 
     // 分页获取已采集合作伙伴
-    async pagePartner<T>(
-      page: number,
-      size: number,
-      query: string,
+    async pagePartner<T, Q>(
+      page: PageQuerier<Q>,
     ): Promise<Requestor.Options.Result<T>> {
       return await this.doRequest<T>(
-        `${this.server}/v2/applet/partners/page?page=${page}&size=${size}&query=${query}`,
-        GET,
+        `${this.server}/v2/applet/partners/page`,
+        POST,
+        JSON.stringify(page),
       );
     }
 

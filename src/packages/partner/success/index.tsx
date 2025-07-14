@@ -21,7 +21,6 @@ const Index: FC = () => {
   }, []);
 
   const onAddEmployeeClick = useCallback(() => {
-    console.log("id", id);
     Taro.navigateTo({
       url: `/packages/partner/employee/add?partner=${id}`,
     });

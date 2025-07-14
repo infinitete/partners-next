@@ -1,7 +1,13 @@
-export interface PageData<T> {
+export interface PageQuerier<Q> {
+  page: number;
+  size: number;
+  query?: Q;
+}
+
+export interface PageData<T, Q> {
   page: number;
   size: number;
   total: number;
-  query: string;
+  query?: Q;
   payload: T[];
 }

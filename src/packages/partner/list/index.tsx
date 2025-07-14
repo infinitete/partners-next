@@ -9,14 +9,15 @@ import "./index.scss";
 import { pagePartners } from "@/actions";
 import SearchIcon from "@/assets/icons/search.svg";
 import BackspaceIcon from "@/assets/icons/backspace.svg";
-import { PageData } from "@/constants/common";
-import { Partner } from "@/constants/partner";
+import { PageData, PageQuerier } from "@/constants/common";
+import { Partner, PartnerQuerier } from "@/constants/partner";
 import R from "@/requestor";
 import Taro, { useDidShow } from "@tarojs/taro";
 
 const map = {
   name: "名称",
-  district_name: "区域",
+  district: "区域",
+  phone: "手机",
 };
 
 const Index: FC = () => {
@@ -27,28 +28,21 @@ const Index: FC = () => {
     [],
   );
 
-  const getQueryMap = useCallback((query: string | null) => {
-    if (query == null || query == "") {
+  const getQueryMap = useCallback((query: PartnerQuerier) => {
+    if (query == null) {
       return undefined;
     }
-    const segs = query.split(" AND ").map((x) => {
-      let kv = x.split(" like ").map((y) => y.replace(/%|`|'/g, ""));
-      return { key: kv[0], value: kv[1] };
-    });
 
-    let queryMap = segs
-      .map((kv) => {
-        let key = map[kv.key];
-        console.log(kv.key, map[key]);
-        if (key == undefined) {
-          return { key, value: undefined };
-        }
+    let s: { key: string; value: string }[] = [];
 
-        return { key, value: kv.value };
-      })
-      .filter((x) => x.value != undefined);
+    for (let k in query) {
+      let v: string = map[k];
+      if (query[k]) {
+        s.push({ key: v, value: query[k] });
+      }
+    }
 
-    return queryMap;
+    return s;
   }, []);
 
   useDidShow(() => {
@@ -60,8 +54,8 @@ const Index: FC = () => {
     (from: string) => {
       if (from == "icon") {
         const { query } = partners;
-        if (query && query.length > 0) {
-          getData(1, partners.size, "");
+        if (query) {
+          getData(1, partners.size);
           return;
         }
       } else if (from == "input") {
@@ -72,15 +66,21 @@ const Index: FC = () => {
   );
 
   const getData = useCallback(
-    async (page: number = 1, size: number = 10, query: string | null = "") => {
+    async (page: number = 1, size: number = 10, query?: PartnerQuerier) => {
       setReq(true);
+
+      let q: PageQuerier<PartnerQuerier> = {
+        page,
+        size,
+        query,
+      };
+
       try {
         Taro.showLoading();
-        const res = await R.pagePartner<PageData<Partner>>(
-          page,
-          size,
-          query ?? "",
-        );
+        const res = await R.pagePartner<
+          PageData<Partner, PageQuerier<PartnerQuerier>>,
+          PartnerQuerier
+        >(q);
         Taro.hideLoading();
         if (res.code != 0) {
           throw res.msg;
@@ -91,7 +91,7 @@ const Index: FC = () => {
         }
         dispatch(pagePartners(nextData));
         setReq(false);
-        if (query != "") {
+        if (query != null) {
           setQueryMap(getQueryMap(query) ?? []);
         } else {
           setQueryMap([]);
@@ -132,13 +132,7 @@ const Index: FC = () => {
           />
         </View>
         <View className="icon" onClick={() => onSearchClick("icon")}>
-          <Image
-            src={
-              partners.query && partners.query != ""
-                ? BackspaceIcon
-                : SearchIcon
-            }
-          />
+          <Image src={partners.query ? BackspaceIcon : SearchIcon} />
         </View>
       </View>
       <ScrollView
