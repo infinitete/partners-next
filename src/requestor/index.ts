@@ -196,13 +196,13 @@ export namespace Requestor {
   export class Instance {
     protected server: string = "";
     protected headers = {
-      "X-Token": "",
+      Authorization: "",
       "Content-Type": "application/json",
     };
 
     constructor(server: string) {
       this.server = server;
-      this.headers["X-Token"] = (() => {
+      this.headers["Authorization"] = (() => {
         let token = Taro.getStorageSync<{
           token: string;
           expire: number;
@@ -230,7 +230,7 @@ export namespace Requestor {
         if (token != null) {
           const now = Math.ceil(new Date().getTime() / 1000) - 3600;
           if (token.expire > now) {
-            this.headers["X-Token"] = `Bearer ${token.token}`;
+            this.headers["Authorization"] = `Bearer ${token.token}`;
           }
         }
       } catch (err) {

@@ -1,11 +1,11 @@
 {
   "miniprogramRoot": "./dist",
   "projectname": "partners-next",
-  "description": "partner-next",
+  "description": "partners-next",
   "appid": "wx435759053bcc6786",
   "setting": {
-    "urlCheck": false,
-    "es6": true,
+    "urlCheck": true,
+    "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
